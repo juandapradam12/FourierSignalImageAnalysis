@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+.env
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Generated figures and notebooks checkpoints
+outputs/
+*.pdf
+.ipynb_checkpoints/
