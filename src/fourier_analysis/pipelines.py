@@ -5,13 +5,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from fourier_analysis.dft import discrete_fourier_transform, dominant_frequency
 from fourier_analysis.filters import apply_frequency_filter, high_pass_vertical_kernel
 from fourier_analysis.image_io import load_grayscale_image
 from fourier_analysis.plotting import (
+    save_before_after,
     save_horizontal_cuts,
     save_image_grid,
     save_signal_spectrum,
@@ -37,7 +37,7 @@ class ImageAnalysisResult:
     images_path: Path
     spectra_path: Path
     cuts_path: Path
-    filtered_path: Path
+    before_after_path: Path
 
 
 def analyze_signal(
@@ -73,7 +73,7 @@ def analyze_images(
     output_dir: str | Path,
     filter_target: str = "barcelona",
 ) -> ImageAnalysisResult:
-    """Compute 2D FFTs, spectra, mid-row cuts, and a filtered image."""
+    """Compute 2D FFTs, DC-centered spectra, cuts, and a before/after filter demo."""
     if filter_target not in image_paths:
         raise KeyError(f"filter_target '{filter_target}' not found in image_paths")
 
@@ -87,26 +87,26 @@ def analyze_images(
     cuts_path = save_horizontal_cuts(spectra, names, out / "spectrum_horizontal_cuts.png")
 
     target_index = names.index(filter_target)
+    original = images[target_index]
     target_spectrum = spectra[target_index]
     kernel = high_pass_vertical_kernel(target_spectrum.shape[0])
     filtered = apply_frequency_filter(target_spectrum, kernel)
 
-    filtered_path = Path(out / f"{filter_target}_filtered.png")
-    filtered_path.parent.mkdir(parents=True, exist_ok=True)
-
-    figure, ax = plt.subplots(figsize=(8, 5))
-    ax.imshow(filtered, cmap="gray")
-    ax.set_title(f"{filter_target}: horizontal-structure attenuated")
-    ax.axis("off")
-    figure.tight_layout()
-    figure.savefig(filtered_path, dpi=150, bbox_inches="tight")
-    plt.close(figure)
+    before_after_path = save_before_after(
+        original,
+        filtered,
+        out / f"{filter_target}_before_after.png",
+        titles=(
+            f"{filter_target} (original)",
+            f"{filter_target} (horizontal structure attenuated)",
+        ),
+    )
 
     return ImageAnalysisResult(
         images_path=images_path,
         spectra_path=spectra_path,
         cuts_path=cuts_path,
-        filtered_path=filtered_path,
+        before_after_path=before_after_path,
     )
 
 

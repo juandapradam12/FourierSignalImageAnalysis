@@ -30,6 +30,8 @@ tests/            # unit checks against NumPy FFT reference
   impractical; `numpy.fft.fft2` / `ifft2` are used for spectra and filtering.
 - **Pipelines as facades.** `analyze_signal` and `analyze_images` compose
   lower-level modules and return typed result objects with output paths.
+- **DC-centered spectra.** 2D magnitude plots and cuts use `fftshift` so
+  zero frequency sits at the image center.
 - **Artifacts stay out of git.** Figures are written under `outputs/`
   (gitignored) so the repository tracks sources and data, not regenerated
   binaries.

@@ -45,7 +45,7 @@ def main() -> None:
     print(f"Source images:      {result.images_path}")
     print(f"Fourier spectra:    {result.spectra_path}")
     print(f"Horizontal cuts:    {result.cuts_path}")
-    print(f"Filtered image:     {result.filtered_path}")
+    print(f"Before / after:     {result.before_after_path}")
 
 
 if __name__ == "__main__":

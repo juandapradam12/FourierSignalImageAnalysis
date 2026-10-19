@@ -40,15 +40,16 @@ F(u, v) = \sum_{x}\sum_{y}
 I(x, y)\, e^{-2\pi i\,(ux/M + vy/N)}.
 $$
 
-Spectral figures show a stabilized log-magnitude,
+Spectral figures show a DC-centered log-magnitude,
 
 $$
-\log\bigl(\lvert F(u, v)\rvert + \varepsilon\bigr),
+\log\bigl(\lvert F(u, v)\rvert + \varepsilon\bigr)
+\quad\text{after}\quad
+\texttt{fftshift},
 $$
 
-with $\varepsilon > 0$ to avoid $\log 0$. Mid-row cuts plot the same
-quantity along $v$ at fixed $u$ equal to the image center row in the
-unshifted spectrum array.
+with $\varepsilon > 0$ to avoid $\log 0$. Horizontal cuts are taken through
+the center row of that shifted array (the $f_y \approx 0$ line).
 
 ## Horizontal-structure attenuation
 
@@ -67,5 +68,5 @@ G = \mathcal{F}^{-1}\{ H \cdot F \},
 \qquad H = \mathcal{F}\{K\}.
 $$
 
-The restored image $G$ is what the 2D example exports as the filtered
-Barcelona result.
+The restored image $G$ is shown next to the original in a before/after
+figure so the effect of attenuating horizontal structure is immediate.

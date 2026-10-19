@@ -37,8 +37,8 @@ $$
 \log\bigl(\lvert F(u, v)\rvert + \varepsilon\bigr)
 $$
 
-and mid-row spectral cuts are exported. For the Barcelona city map, a vertical
-high-pass kernel
+and horizontal cuts through DC are exported with spectra centered via
+`fftshift`. For the Barcelona city map, a vertical high-pass kernel
 
 $$
 K(x) = 1 - e^{-C x^{2}}
@@ -51,7 +51,7 @@ G = \mathcal{F}^{-1}\{ \mathcal{F}\{K\} \cdot F \},
 $$
 
 which reduces the dense horizontal street pattern while preserving most of the
-remaining geometry.
+remaining geometry. The pipeline writes a side-by-side before/after figure.
 
 ```bash
 python examples/analyze_2d_images.py
@@ -88,8 +88,10 @@ Requires Python 3.10+.
 pytest
 ```
 
-The 1D DFT is compared against `numpy.fft.fft` on a known sinusoid; frequency
-estimation recovers a planted tone within half a bin.
+GitHub Actions runs the same suite on Python 3.10 and 3.12 for every push and
+pull request. The 1D DFT is compared against `numpy.fft.fft` on a known
+sinusoid; frequency estimation recovers a planted tone within half a bin;
+pipelines are checked end-to-end.
 
 ## Documentation
 
