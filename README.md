@@ -1,8 +1,11 @@
-# Fourier Transforms in 1D and 2D
+# Fourier Signal & Image Analysis
 
-Portfolio use case: estimate the dominant frequency of a sampled signal with a
-from-definition DFT, then analyze images in the Fourier domain and attenuate
-horizontal structure via a frequency-domain filter.
+Estimate a signal’s dominant frequency with a from-definition 1D DFT, then
+inspect image spectra with the 2D FFT and attenuate horizontal structure in the
+frequency domain — a compact Python portfolio use case with tests and CI.
+
+**Topics:** `fourier-transform` · `dft` · `fft` · `signal-processing` ·
+`image-processing` · `numpy` · `python` · `scientific-computing` · `portfolio`
 
 | Layer | Role |
 | --- | --- |

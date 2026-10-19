@@ -5,14 +5,22 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fourier-analysis"
 version = "1.0.0"
-description = "1D and 2D Fourier analysis for signal frequency estimation and image filtering"
+description = "1D DFT frequency estimation and 2D FFT image filtering — portfolio use case with tests and CI"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
   { name = "Juan David Prada Malagon", email = "pradamalagonjd@gmail.com" },
 ]
-keywords = ["fourier", "dft", "fft", "signal-processing", "image-processing"]
+keywords = [
+  "fourier-transform",
+  "dft",
+  "fft",
+  "signal-processing",
+  "image-processing",
+  "numpy",
+  "portfolio",
+]
 dependencies = [
   "numpy>=1.24",
   "matplotlib>=3.7",
