@@ -18,6 +18,7 @@ examples/
 data/
   signals/        # tabular 1D samples
   images/         # grayscale-ready input imagery
+docs/figures/     # curated PNGs embedded in the README story
 tests/            # unit checks against NumPy FFT reference
 ```
 

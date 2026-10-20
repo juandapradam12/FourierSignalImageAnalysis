@@ -111,3 +111,42 @@ def save_signal_spectrum(
     figure.savefig(path, dpi=150, bbox_inches="tight")
     plt.close(figure)
     return path
+
+
+def save_signal_story(
+    time: NDArray[np.floating],
+    values: NDArray[np.floating],
+    frequencies: NDArray[np.floating],
+    spectrum: NDArray[np.complexfloating],
+    dominant_frequency: float,
+    output_path: str | Path,
+) -> Path:
+    """Save a two-panel figure: time series and magnitude spectrum with peak mark."""
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    order = np.argsort(frequencies)
+    figure, axes = plt.subplots(1, 2, figsize=(12, 4))
+
+    axes[0].plot(time, values, color="#1f4e79")
+    axes[0].set_xlabel("Time")
+    axes[0].set_ylabel(r"$f(t)$")
+    axes[0].set_title("Sampled signal")
+
+    axes[1].plot(frequencies[order], np.abs(spectrum[order]), color="#1f4e79")
+    axes[1].axvline(
+        dominant_frequency,
+        color="#c45c26",
+        linestyle="--",
+        linewidth=1.5,
+        label=rf"$f^\star = {dominant_frequency:.1f}$",
+    )
+    axes[1].set_xlabel("Frequency")
+    axes[1].set_ylabel(r"$|Z(f)|$")
+    axes[1].set_title("DFT magnitude spectrum")
+    axes[1].legend(frameon=False)
+
+    figure.tight_layout()
+    figure.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(figure)
+    return path

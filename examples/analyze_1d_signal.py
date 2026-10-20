@@ -40,6 +40,7 @@ def main() -> None:
         f"(N={result.n_samples}, dt={result.sample_spacing:.6g})"
     )
     print(f"Spectrum figure: {result.spectrum_path}")
+    print(f"Story figure:    {result.story_path}")
 
 
 if __name__ == "__main__":
