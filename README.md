@@ -12,11 +12,11 @@ frequency domain — a compact Python portfolio use case with tests and CI.
 | `src/fourier_analysis` | Reusable transforms, filters, and pipelines |
 | `examples/` | Runnable 1D and 2D demos |
 | `data/` | Bundled signal and images |
-| `docs/` | Theory and architecture notes |
+| `docs/` | Theory, architecture, and result figures |
 
-## Use cases
+## Story in figures
 
-### 1. Dominant frequency of a 1D signal
+### 1. From a sampled signal to a dominant frequency
 
 A two-column time series $(t, f(t))$ is transformed with the discrete Fourier
 transform
@@ -26,22 +26,40 @@ Z[k] = \sum_{n=0}^{N-1} z[n]\, e^{-2\pi i\, nk / N}.
 $$
 
 The reported frequency is the peak of $\lvert Z[k]\rvert$ on the DFT grid
-$f_k = k / (N\Delta t)$, excluding the DC bin.
+$f_k = k / (N\Delta t)$, excluding the DC bin. On the bundled sample, that peak
+lands at $f^\star \approx 137$.
+
+![Sampled signal and DFT magnitude spectrum with dominant frequency marked](docs/figures/01_signal_time_and_spectrum.png)
 
 ```bash
 python examples/analyze_1d_signal.py
 ```
 
-### 2. Image spectra and horizontal-line attenuation
+### 2. Read structure in the Fourier domain of images
 
-Four grayscale images are transformed with the 2D FFT. Log-magnitude spectra
+Four grayscale inputs — city maps and geometric patterns — are transformed with
+the 2D FFT. Spectra are shown as DC-centered log-magnitude
 
 $$
 \log\bigl(\lvert F(u, v)\rvert + \varepsilon\bigr)
 $$
 
-and horizontal cuts through DC are exported with spectra centered via
-`fftshift`. For the Barcelona city map, a vertical high-pass kernel
+after `fftshift`, so zero frequency sits in the middle of each panel.
+
+![Source grayscale images](docs/figures/02_source_images.jpg)
+
+![DC-centered Fourier spectra](docs/figures/03_fourier_spectra.jpg)
+
+Horizontal cuts through DC make the energy distribution along $f_x$ explicit —
+useful when comparing street maps (anisotropic spectra) to more isotropic
+patterns.
+
+![Horizontal spectral cuts through DC](docs/figures/04_spectrum_horizontal_cuts.png)
+
+### 3. Attenuate horizontal structure on the Barcelona map
+
+Dense east–west streets concentrate energy near low vertical frequencies. A
+vertical high-pass kernel
 
 $$
 K(x) = 1 - e^{-C x^{2}}
@@ -53,14 +71,17 @@ $$
 G = \mathcal{F}^{-1}\{ \mathcal{F}\{K\} \cdot F \},
 $$
 
-which reduces the dense horizontal street pattern while preserving most of the
-remaining geometry. The pipeline writes a side-by-side before/after figure.
+which reduces that street pattern while preserving most of the remaining
+geometry.
+
+![Barcelona before and after horizontal-structure attenuation](docs/figures/05_barcelona_before_after.jpg)
 
 ```bash
 python examples/analyze_2d_images.py
 ```
 
-Figures are written to `outputs/`.
+Regenerated figures land in `outputs/`; the gallery above lives in
+`docs/figures/` for the README story.
 
 ## Setup
 
@@ -82,7 +103,8 @@ Requires Python 3.10+.
 ├── data/images/            # input imagery
 ├── docs/theory.md          # equations behind the pipelines
 ├── docs/architecture.md    # module boundaries
-└── tests/                  # DFT and filter checks
+├── docs/figures/           # README storytelling gallery
+└── tests/                  # DFT, filter, and pipeline checks
 ```
 
 ## Tests

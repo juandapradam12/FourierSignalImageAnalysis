@@ -20,6 +20,7 @@ def test_analyze_signal_on_bundled_data(tmp_path: Path) -> None:
     assert result.n_samples == 256
     assert result.dominant_frequency == pytest.approx(137.0, rel=1e-6)
     assert result.spectrum_path.exists()
+    assert result.story_path.exists()
 
 
 def test_analyze_images_writes_before_after_and_centered_spectra(tmp_path: Path) -> None:

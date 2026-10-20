@@ -15,6 +15,7 @@ from fourier_analysis.plotting import (
     save_horizontal_cuts,
     save_image_grid,
     save_signal_spectrum,
+    save_signal_story,
     save_spectrum_grid,
 )
 from fourier_analysis.spectrum import frequency_axis
@@ -28,6 +29,7 @@ class SignalAnalysisResult:
     sample_spacing: float
     n_samples: int
     spectrum_path: Path
+    story_path: Path
 
 
 @dataclass(frozen=True)
@@ -59,12 +61,21 @@ def analyze_signal(
 
     out = Path(output_dir)
     spectrum_path = save_signal_spectrum(frequencies, spectrum, out / "signal_spectrum.png")
+    story_path = save_signal_story(
+        time,
+        values,
+        frequencies,
+        spectrum,
+        peak,
+        out / "signal_time_and_spectrum.png",
+    )
 
     return SignalAnalysisResult(
         dominant_frequency=peak,
         sample_spacing=sample_spacing,
         n_samples=len(values),
         spectrum_path=spectrum_path,
+        story_path=story_path,
     )
 
 
