@@ -33,7 +33,7 @@ $f_k = k / (N\Delta t)$, excluding the DC bin.
 
 ![Sampled signal and DFT magnitude spectrum with dominant frequency marked](docs/figures/01_signal_time_and_spectrum.png)
 
-**Interpretation.** The left panel is a nearly pure oscillation in time: a
+The left panel is a nearly pure oscillation in time: a
 cosine-like waveform with amplitude in $[-1, 1]$ and roughly four cycles over
 $\Delta T \approx 0.03$, which already suggests $f \sim 130$. The right panel
 is the same information in the frequency domain. Because $f(t)$ is real, the
@@ -61,7 +61,7 @@ after `fftshift`, so zero frequency sits in the middle of each panel.
 
 ![Source grayscale images](docs/figures/02_source_images.jpg)
 
-**Interpretation.** The inputs span two kinds of spatial structure. Barcelona
+The inputs span two kinds of spatial structure. Barcelona
 and Paris are line drawings of street networks: intensity is sparse and
 anisotropic (preferred orientations). The fractal and triangle fields are
 filled patterns: the fractal is irregular but statistically self-similar; the
@@ -71,7 +71,7 @@ while a periodic tiling maps to a discrete Bragg-like lattice of peaks.
 
 ![DC-centered Fourier spectra](docs/figures/03_fourier_spectra.jpg)
 
-**Interpretation.** Brightness here is spectral energy, not image intensity.
+Brightness here is spectral energy, not image intensity.
 In every panel the center is the DC component (mean gray level). Barcelona
 shows a strong horizontal–vertical cross plus fainter radial spokes: the
 orthogonal Eixample grid puts energy along $f_x = 0$ and $f_y = 0$, while
@@ -85,7 +85,7 @@ transform is a discrete dual lattice of spatial frequencies.
 
 ![Horizontal spectral cuts through DC](docs/figures/04_spectrum_horizontal_cuts.png)
 
-**Interpretation.** Each curve is
+Each curve is
 $\log(\lvert F\rvert + \varepsilon)$ along the horizontal line through DC
 ($f_y \approx 0$). The central spike is the mean intensity. Barcelona’s cut
 is spiked at regular intervals: harmonics of the street spacing appear as
@@ -117,7 +117,7 @@ other orientations.
 
 ![Barcelona before and after horizontal-structure attenuation](docs/figures/05_barcelona_before_after.jpg)
 
-**Interpretation.** The left panel is the original map: the Eixample’s
+The left panel is the original map: the Eixample’s
 horizontal streets are continuous white lines across blocks. After the
 frequency-domain filter (right), those east–west lines are strongly
 suppressed and the remaining energy is dominated by vertical and diagonal
