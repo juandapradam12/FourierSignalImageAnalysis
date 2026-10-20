@@ -50,52 +50,66 @@ python examples/analyze_1d_signal.py
 
 ### 2. Spatial spectra of images
 
-Four grayscale inputs — city maps and geometric patterns — are transformed with
-the 2D FFT. Spectra are shown as DC-centered log-magnitude
+The path from image to spectrum is the same for every panel below. Each file
+is loaded as a grayscale intensity field $I(x, y)$; the discrete 2D Fourier
+transform
 
 $$
-\log\bigl(\lvert F(u, v)\rvert + \varepsilon\bigr)
+F(u, v) = \sum_{x}\sum_{y}
+I(x, y)\, e^{-2\pi i\,(ux/M + vy/N)}
 $$
 
-after `fftshift`, so zero frequency sits in the middle of each panel.
+is evaluated with `numpy.fft.fft2`. For display we form the log-magnitude
+$\log(\lvert F\rvert + \varepsilon)$ and apply `fftshift` so the DC bin sits
+at the center of the array. A one-dimensional cut through that center then
+reads the same quantity along $f_y \approx 0$.
 
 ![Source grayscale images](docs/figures/02_source_images.jpg)
 
-The inputs span two kinds of spatial structure. Barcelona
-and Paris are line drawings of street networks: intensity is sparse and
-anisotropic (preferred orientations). The fractal and triangle fields are
-filled patterns: the fractal is irregular but statistically self-similar; the
-triangles form a nearly crystalline lattice. These differences set what the
-Fourier plane should look like: directional lines map to directional streaks,
-while a periodic tiling maps to a discrete Bragg-like lattice of peaks.
+These four arrays are the starting point: city maps of Barcelona and Paris
+together with a fractal field and a triangular lattice, all converted to
+single-channel float images before any transform is taken. The inputs span
+two kinds of spatial structure. Barcelona and Paris are line drawings of
+street networks: intensity is sparse and anisotropic (preferred
+orientations). The fractal and triangle fields are filled patterns: the
+fractal is irregular but statistically self-similar; the triangles form a
+nearly crystalline lattice. These differences set what the Fourier plane
+should look like: directional lines map to directional streaks, while a
+periodic tiling maps to a discrete Bragg-like lattice of peaks.
 
 ![DC-centered Fourier spectra](docs/figures/03_fourier_spectra.jpg)
 
-Brightness here is spectral energy, not image intensity.
-In every panel the center is the DC component (mean gray level). Barcelona
-shows a strong horizontal–vertical cross plus fainter radial spokes: the
-orthogonal Eixample grid puts energy along $f_x = 0$ and $f_y = 0$, while
-diagonal avenues produce the angled rays. Paris is more diffuse, with a
-diagonal X rather than a square cross — consistent with radial boulevards
-instead of a single cartesian lattice. The fractal spectrum is a soft central
-glow without sharp lines, as expected when power is spread across scales
-rather than locked to a few periods. The triangle field collapses to a
-hexagonal lattice of bright spots: a periodic real-space tiling whose Fourier
-transform is a discrete dual lattice of spatial frequencies.
+Each panel here is the log-magnitude of $F$ for the image directly above it,
+after centering with `fftshift`. No filtering has been applied yet — only the
+forward 2D FFT and the display transform
+$\log(\lvert F(u, v)\rvert + \varepsilon)$. Brightness is therefore spectral
+energy, not image intensity. In every panel the center is the DC component
+(mean gray level). Barcelona shows a strong horizontal–vertical cross plus
+fainter radial spokes: the orthogonal Eixample grid puts energy along
+$f_x = 0$ and $f_y = 0$, while diagonal avenues produce the angled rays.
+Paris is more diffuse, with a diagonal X rather than a square cross —
+consistent with radial boulevards instead of a single cartesian lattice. The
+fractal spectrum is a soft central glow without sharp lines, as expected when
+power is spread across scales rather than locked to a few periods. The
+triangle field collapses to a hexagonal lattice of bright spots: a periodic
+real-space tiling whose Fourier transform is a discrete dual lattice of
+spatial frequencies.
 
 ![Horizontal spectral cuts through DC](docs/figures/04_spectrum_horizontal_cuts.png)
 
-Each curve is
-$\log(\lvert F\rvert + \varepsilon)$ along the horizontal line through DC
-($f_y \approx 0$). The central spike is the mean intensity. Barcelona’s cut
-is spiked at regular intervals: harmonics of the street spacing appear as
-discrete peaks on top of a falling envelope. Paris keeps a similar envelope
-but without those sharp harmonics — its plan is less strictly periodic along
-that axis. The fractal cut decays smoothly away from DC, close to a power-law
-tail. The triangle cut is almost impulsive: a few narrow peaks and a very low
-floor, the 1D fingerprint of a highly periodic pattern. Together, the cuts
-quantify what the 2D spectra show qualitatively — order versus isotropy in
-$f_x$.
+From each centered spectrum we extract the middle row — the horizontal line
+through DC — and plot that 1D profile. That is the only extra step between
+the 2D maps above and these curves: a slice of
+$\log(\lvert F\rvert + \varepsilon)$ at $f_y \approx 0$, with frequency bin
+increasing left to right and DC at the center. The central spike is the mean
+intensity. Barcelona’s cut is spiked at regular intervals: harmonics of the
+street spacing appear as discrete peaks on top of a falling envelope. Paris
+keeps a similar envelope but without those sharp harmonics — its plan is less
+strictly periodic along that axis. The fractal cut decays smoothly away from
+DC, close to a power-law tail. The triangle cut is almost impulsive: a few
+narrow peaks and a very low floor, the 1D fingerprint of a highly periodic
+pattern. Together, the cuts quantify what the 2D spectra show qualitatively —
+order versus isotropy in $f_x$.
 
 ### 3. Attenuating horizontal structure on the Barcelona map
 
