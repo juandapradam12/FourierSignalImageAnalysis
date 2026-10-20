@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the 2D Fourier analysis use case on the bundled city and pattern images."""
+"""Compute 2D spectra and a directional filter on the bundled images."""
 
 from __future__ import annotations
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the 1D Fourier analysis use case on the bundled sample signal."""
+"""Estimate the dominant frequency of the bundled 1D sample signal."""
 
 from __future__ import annotations
 

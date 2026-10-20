@@ -1,7 +1,7 @@
 # Mathematical Background
 
-This note records the transforms and filter used by the portfolio use case.
-It is not a tutorial; it states the definitions that the code implements.
+Definitions implemented by the code for the 1D frequency estimation problem
+and the 2D spectral filtering problem.
 
 ## Discrete Fourier Transform (1D)
 
@@ -19,8 +19,8 @@ f_k = \frac{k}{N\Delta t},
 \qquad k = -\tfrac{N}{2}, \ldots, \tfrac{N}{2}-1
 $$
 
-(in the usual FFT frequency ordering). The dominant frequency reported by
-the 1D pipeline is
+(in the usual FFT frequency ordering). The dominant frequency of a real
+oscillatory signal is identified as
 
 $$
 f^\star = \arg\max_{k \neq 0} \lvert Z[k]\rvert
@@ -28,8 +28,11 @@ f^\star = \arg\max_{k \neq 0} \lvert Z[k]\rvert
 \lvert f_k\rvert.
 $$
 
-The implementation builds the DFT kernel matrix explicitly and multiplies
-it by the signal vector, then cross-checks against `numpy.fft.fft` in tests.
+Physically, $f^\star$ is the strongest non-constant harmonic supported by the
+sampling: the rate at which $z(t)$ completes cycles per unit time. The
+implementation builds the DFT kernel matrix explicitly and multiplies it by
+the signal vector ($Z = Mz$), with numerical agreement checked against
+`numpy.fft.fft`.
 
 ## Two-Dimensional FFT
 
@@ -40,6 +43,8 @@ F(u, v) = \sum_{x}\sum_{y}
 I(x, y)\, e^{-2\pi i\,(ux/M + vy/N)}.
 $$
 
+Each coefficient $F(u, v)$ measures how strongly the intensity field
+oscillates along the direction and wavelength associated with $(u, v)$.
 Spectral figures show a DC-centered log-magnitude,
 
 $$
@@ -53,7 +58,8 @@ the center row of that shifted array (the $f_y \approx 0$ line).
 
 ## Horizontal-structure attenuation
 
-City maps with dense east–west streets concentrate energy near low vertical
+In a city map, east–west streets are nearly constant along $x$ and vary
+sharply along $y$. That geometry concentrates energy near low vertical
 frequencies. A compact high-pass profile along the vertical axis,
 
 $$
@@ -68,5 +74,6 @@ G = \mathcal{F}^{-1}\{ H \cdot F \},
 \qquad H = \mathcal{F}\{K\}.
 $$
 
-The restored image $G$ is shown next to the original in a before/after
-figure so the effect of attenuating horizontal structure is immediate.
+The restored field $G$ is the image with those horizontal oscillations
+suppressed. Comparing $I$ and $G$ side by side shows which spatial
+frequencies carried the street pattern.
